@@ -1,4 +1,4 @@
-#EN ESTA FILE TRABAJAREMOS TODO LO QUE CONSULTA CON LA BASES DE DATOS
+#EN ESTA clase TRABAJAREMOS TODO LO QUE es CONSULTAs CON LA BASES DE DATOS
 import sqlite3
 class  DataBase:
     def __init__(self, name):
@@ -7,11 +7,11 @@ class  DataBase:
         self.cursor = self.connection.cursor()
     
     def create_table(self, table_name, columns):
-        self.cursor.execute(f"CREATE TABLE IF NOT EXISTS {table_name} ({columns})")
+        self.cursor.execute(f"CREATE TABLE IF NOT EXISTS {table_name} ({columns});")
         self.connection.commit()
     
     def insert(self, table_name, columns, values):
-        self.cursor.execute(f"INSERT INTO {table_name} ({columns}) VALUES ({values})")
+        self.cursor.execute(f"INSERT INTO {table_name} ({columns}) VALUES ({values});")
         self.connection.commit()
     
     def select(self, table_name, columns, condition):
