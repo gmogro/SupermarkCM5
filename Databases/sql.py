@@ -37,21 +37,5 @@ class  DataBase:
     def close(self):
         self.connection.close()
     
-    def __del__(self):
-        self.close()
-    
     def __str__(self):
         return f"DataBase({self.name})"
-
-
-if __name__ == '__main__':
-    db = DataBase("supermark.db")
-    db.create_table("users", 
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "nombre TEXT,"+
-                    "apellido TEXT,"+
-                    "edad INTEGER,"+
-                    "username TEXT,"+ 
-                    "password TEXT,"+
-                    "estado INTEGER"
-                   )
