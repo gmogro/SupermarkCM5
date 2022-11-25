@@ -1,5 +1,6 @@
 #EN ESTA clase TRABAJAREMOS TODO LO QUE es CONSULTAs CON LA BASES DE DATOS
 import sqlite3
+
 class  DataBase:
     def __init__(self, name):
         self.name = name

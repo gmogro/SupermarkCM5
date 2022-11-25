@@ -3,7 +3,8 @@ from Databases.sql import DataBase
 
 
 class Cliente:
-    def __init__(self,nombre):
+    def __init__(self,nombre,apellido,
+                 ):
         self.__nombre = nombre
         
     #getters y setter

@@ -3,7 +3,7 @@ import sql
 db = sql.DataBase("supermark.db")
 
 db.insert("rol","nombre,descripcion","'Administrador','Administrador del sistema'")
-db.insert("rol","nombre,descripcion","'Vendedor','Vendedor del sistema'")
+db.insert("rol","nombre,descripcion","'Vendedor','Vendedor de producto'")
 
 db.insert("usuario","nombre,apellido,dni,email,password,idrol","'Mogro','Guillermo','12345678','gmogro@gmail.com','123456',1")
 
