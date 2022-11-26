@@ -1,5 +1,5 @@
 from Sistema.Login.rol import Rol
-from Proyecto.Usuario.usuario import Usuario
+from Sistema.Login.usuario import Usuario
 
 rol = Rol(1, "Administrador", "Administrador del sistema")
 
