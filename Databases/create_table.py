@@ -27,18 +27,19 @@ db.create_table("persona","id_persona INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "telefono TEXT(9)," +
                         "email TEXT(50)," +
                         "tipo_persona TEXT(20) DEFAULT 'Cliente'," +
-                        "tipo_responsabilidad TEXT(30)"
+                        "tipo_responsabilidad TEXT(30),"+
                         "estado INTEGER DEFAULT 1"
                 )
 
 db.create_table("venta",
                 "id_venta INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                "id_cliente INTEGER,"
+                "id_cliente INTEGER,"+
                 "tipo_comprobante TEXT(20),"+
-                "serie_comprobante TEXT(7),"+
+                "nro_comprobante TEXT(7),"+
                 "fecha TEXT(10),"+
                 "total REAL,"+
-                "estado TEXT(20) DEFAULT 'EXITOSA'"
+                "estado TEXT(20) DEFAULT 'EXITOSA',"+
+                "id_usuario INTEGER"
                 )
 
 db.create_table("detalle_venta", 
@@ -47,7 +48,7 @@ db.create_table("detalle_venta",
                 "id_producto INTEGER,"+
                 "cantidad INTEGER,"+
                 "precio REAL,"+
-                "descuento REAL"
+                "descuento REAL DEFAULT 0"
                 )
 
 db.create_table("producto",

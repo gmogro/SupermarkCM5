@@ -7,6 +7,9 @@ class  DataBase:
         self.connection = sqlite3.connect(self.name)
         self.cursor = self.connection.cursor()
     
+    def get_last_id(self):
+        return self.cursor.lastrowid
+    
     def create_table(self, table_name, columns):
         self.cursor.execute(f"CREATE TABLE IF NOT EXISTS {table_name} ({columns});")
         self.connection.commit()
@@ -34,7 +37,7 @@ class  DataBase:
     def delete_table(self, table_name):
         self.cursor.execute(f"DROP TABLE {table_name}")
         self.connection.commit()
-    
+ 
     def close(self):
         self.connection.close()
     

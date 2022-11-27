@@ -1,3 +1,6 @@
+from Databases import sql
+
+
 class DetalleVenta:
 
     def __init__(self,idproducto = 0, cantidad = 0,subtotal = 0.0,id_detalleventa = 0, idventa = 0):
@@ -50,5 +53,36 @@ class DetalleVenta:
     def __str__(self):
         return self.__cantidad + " - " + self.__producto
 
-   
-        
+    def get_detalleventa(self,id_venta):
+        db = sql.DataBase("supermark.db")
+        venta = db.select("venta","id_venta,id_cliente,tipo_comprobante,nro_comprobante,fecha,total,id_usuario",
+                    f"WHERE id_venta = {id_venta}")
+        cliente = db.select("cliente","apellido|| ' ' ||nombre",f"WHERE id_cliente = {venta[0][1]}")
+        usuario = db.select("usuario","apellido|| ' ' ||nombre",f"WHERE id_usuario = {venta[0][6]}")
+        detalles = db.select("detalle_venta","id_venta,id_producto,cantidad,descuento,subtotal",
+                    f"WHERE id_venta = {id_venta}")
+        print('-------------------------------------------')
+        print('             SUPERMARK   ')
+        print('-------------------------------------------')
+        print('Tipo Comprobante : ',venta[0][2],'\tnumero_comprobante : ',venta[0][3])
+        print('-------------------------------------------')
+        print('Cajero: ',usuario[0][6],'      Fecha: ',venta[0][4])
+        print('-------------------------------------------')
+        print('Cliente: ',cliente[0][0])
+        print('-------------------------------------------')
+        print('--------------DETALLES---------------------')
+        print('-------------------------------------------')
+        print("Nro\tproducto\tcantidad\tdescuento\tsubtotal")
+        i = 0
+        for detalle in detalles:
+            producto = db.select("productos","nombre",f"id_producto = {detalle[1]}")
+            print(f"{i}\t{producto[0][0]}\t{detalle[2]}\t{detalle[3]}\t{detalle[4]}")
+            i += 1 
+        print('-------------------------------------------')
+        print('Total a pagar: $', venta[0][5])
+        print('-------------------------------------------')
+       
+        db.close()
+       
+       
+
