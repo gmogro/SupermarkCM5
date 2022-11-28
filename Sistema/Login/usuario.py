@@ -97,12 +97,19 @@ class Usuario:
         
 
     def login(self,email,password):
-        if self.__email == email:
+        db = sql.DataBase("supermark.db")
+        usuario = db.select("usuario","password",f"email = '{email}'")
+        if len(usuario)>0:
+            self.__password = usuario[0][0]
+            db.close()
             if self.__password == password:
                 return True
             else:
+                print("Contraseña Incorrecta....")
                 return False
         else:
+            print("Usuario incorrecto ó ")
+            print("No se encuentra Registrado el Usuario")
             return False
         
     def logout(self):

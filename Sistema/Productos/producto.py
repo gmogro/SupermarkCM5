@@ -82,7 +82,7 @@ class Producto:
         for categoria in categorias:
             print(f"{categoria[0]}\t{categoria[1]}")
         self.__idcategoria = input("Ingrese la categoria del producto: ")
-        db.insert("producto","id_categoria,codigo,nombre,precio,stock,descripcion",
+        db.insert("producto","id_categoria,codigo,nombre,precio_venta,stock,descripcion",
                   f"{self.__idcategoria},'{self.__codigo}','{self.__nombre}','{self.__precio}','{self.__stock}','{self.__descripcion}'")
         db.close()        
 
@@ -90,7 +90,7 @@ class Producto:
         db = sql.DataBase("supermark.db")
         print("Si no desea Modificar el Dato Solo Presione Enter")
         print("Hasta llegar al Dato que quiere modificar")
-        producto = db.select("producto","id_categoria,codigo,nombre,precio,stock,descripcion",f"id_producto = {id_producto} ")
+        producto = db.select("producto","id_categoria,codigo,nombre,precio_venta,stock,descripcion",f"id_producto = {id_producto} ")
         self.__codigo = input(f"Modifique el Codigo : {producto[0][1]} ") or producto[0][1]
         self.__nombre = input(f"Modifique el Nombre :  {producto[0][1]} ") or producto[0][2]
         self.__precio = float(input(f"Modifique el Precio : {producto[0][3]} ")) or producto[0][3]
@@ -105,7 +105,7 @@ class Producto:
         self.__idcategoria = input(f"Modifique la Categoria {nombre} Ingrese un numero : ") or categoria[0][0]
         db.update("producto","codigo",f"'{self.__codigo}'",f"id_producto = {id_producto}")
         db.update("producto","nombre",f"'{self.__nombre}'",f"id_producto = {id_producto}")
-        db.update("producto","precio",f"'{self.__precio}'",f"id_producto = {id_producto}")
+        db.update("producto","precio_venta",f"'{self.__precio}'",f"id_producto = {id_producto}")
         db.update("producto","stock",f"'{self.__stock}'",f"id_producto = {id_producto}")
         db.update("producto","descripcion",f"'{self.__descripcion}'",f"id_producto = {id_producto}")
         db.update("producto","id_categoria",f"'{self.__idcategoria}'",f"id_producto = {id_producto}")
@@ -118,10 +118,10 @@ class Producto:
         
     def listarProducto(self):
         db = sql.DataBase("supermark.db")
-        productos = db.select_all("producto","id_producto,id_categoria,codigo,nombre,precio,stock,descripcion")
-        print("Nro\tCategoria\tcodigo\tnombre\tprecio\tstock\tdescripcion")
+        productos = db.select_all("producto","id_producto,id_categoria,codigo,nombre,precio_venta,stock,descripcion")
+        print("Nro\tCategoria\tcodigo\t\tnombre\t\tprecio\tstock\tdescripcion")
         for producto in productos:
             categoria = db.select("categoria","nombre",f"id_categoria = {producto[1]}")
-            print(f"{producto[0]}\t{categoria}\t{producto[2]}\t{producto[3]}\t{producto[4]}\t{producto[5]}\t{producto[6]}")
+            print(f"{producto[0]}\t{categoria[0][0]}\t\t{producto[2]}\t\t{producto[3]}\t{producto[4]}\t{producto[5]}\t{producto[6]}")
         db.close()
         

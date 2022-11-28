@@ -34,7 +34,7 @@ class Categoria:
     def __str__(self):
         return self.__nombre + " - " + self.__descripcion
 
-    def create_rol(self):
+    def create_categoria(self):
         nombre = input("Nombre de la categoria : ")
         descripcion = input("Descripcion: ")
         db = sql.DataBase('supermark.db')
@@ -47,7 +47,7 @@ class Categoria:
         print("Hasta llegar al Dato que quiere modificar")
         categoria = db.select("categoria","id_categoria,nombre,descripcion",f"id_categoria = {id_categoria}")
         self.__nombre = input(f"Modifique el Nombre :  {categoria[0][1]} ") or categoria[0][1]
-        self.__descripcion = input(f"Modifique la Descripcion : {categoria[0][1]} ") or categoria[0][2]
+        self.__descripcion = input(f"Modifique la Descripcion : {categoria[0][2]} ") or categoria[0][2]
         db.update("categoria","nombre",f"'{self.__nombre}'",f"id_categoria = {id_categoria}")
         db.update("categoria","descripcion",f"'{self.__descripcion}'",f"id_categoria = {id_categoria}")
         db.close()
@@ -57,7 +57,7 @@ class Categoria:
         db.update("categoria","estado","0",f"id_categoria = {id_categoria}")
         db.close()
 
-    def all_categoria(self):
+    def listar_categoria(self):
         db = sql.DataBase("supermark.db")
         categorias = db.select_all("categoria","id_categoria,nombre,descripcion")
         print("NRO     Nombre    Descripcion")
