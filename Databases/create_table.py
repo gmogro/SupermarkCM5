@@ -1,5 +1,11 @@
 import sql
 
+""" import sqlite3
+connection = sqlite3.connect('supermark.db')
+connection.execute("DROP TABLE persona")
+print("data dropped successfully")
+connection.close()
+ """
 db = sql.DataBase("supermark.db")
 
 db.create_table("rol","id_rol INTEGER PRIMARY KEY AUTOINCREMENT," +  
@@ -23,7 +29,7 @@ db.create_table("persona","id_persona INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "apellido TEXT(50)," +
                         "dni TEXT(11)," + 
                         "direccion TEXT(50)," +
-                        "fecha_nacimiento datetime," +
+                        "fecha_nacimiento TEXT(20)," +
                         "telefono TEXT(9)," +
                         "email TEXT(50)," +
                         "tipo_persona TEXT(20) DEFAULT 'Cliente'," +

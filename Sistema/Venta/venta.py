@@ -1,7 +1,7 @@
 from Databases import sql
-from Productos.producto import Producto
-from Venta.cliente import Cliente
-from Venta.detalle_venta import DetalleVenta
+from Sistema.Productos.producto import Producto
+from Sistema.Venta.cliente import Cliente
+from Sistema.Venta.detalle_venta import DetalleVenta
 from datetime import datetime
 
 class Venta:
@@ -89,11 +89,11 @@ class Venta:
             print("")
             id_producto = int(input("Ingrese el Nro del producto: "))
             cantidad = int(input("Ingrese la cantidad del producto: "))
-            producto = db.select("productos","precio_venta",f"id_producto = {id_producto}")
+            producto = db.select("producto","precio_venta",f"id_producto = {id_producto}")
             subtotal = producto[0][0] * cantidad
             detalles = DetalleVenta(id_producto, cantidad,subtotal)
             self.__total += subtotal 
-            opcion = input("Desea Ingresar mas Productos 1 - SI  0 - NO")
+            opcion = input("Desea Ingresar mas Productos 1 - SI  0 - NO : ")
             if opcion == 0:
                 runnig = False
         print("####################################################")
