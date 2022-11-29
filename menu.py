@@ -8,7 +8,7 @@ from os import system
 from progress.bar import Bar
 import time,random
 
-""" login = True
+login = True
 system("cls")
 while login:
     try:
@@ -30,7 +30,7 @@ for num in range(100):
     bar.next()
 bar.finish()
 
-system("cls") """
+system("cls")
 runing = True
 while runing:
     print("########################################")
