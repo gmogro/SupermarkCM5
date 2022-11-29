@@ -107,6 +107,73 @@ while runing:
                 volver = int(input("0 - Volver "))
             else:
                 sub_opcion = 0
-                
-    runing = False
+    elif opcion == 2:
+        sub_opcion = -1
+        while sub_opcion != 0:
+            system("cls")
+            print("########################################")
+            print("#############  Usuarios  ###############")
+            print("########################################")
+            print("1 - Crear Rol ")
+            print("2 - Actualizar Rol ")
+            print("3 - Eliminar Rol ")
+            print("4 - Ver Todos los Rols ")
+            print("5 - Crear Usuario ")
+            print("6 - Actualizar Usuario ")
+            print("7 - Eliminar Usuario ")
+            print("8 - Ver Todas los Usuario ")
+            print("0 - Volver ")
+            print("")
+            sub_opcion = int(input("Ingrese un opcion : "))
+            print("")
+            system("cls")
+            if sub_opcion == 1:
+                rol = Rol()
+                rol.create_rol()
+            elif sub_opcion == 2:
+                rol = Rol()
+                rol.all_usuario()
+                print("0 - Volver ")
+                print("")
+                id_rol = int(input("Ingrese un numero de Rol: "))
+                if id_rol != 0:
+                    rol.update_rol(id_rol)
+            elif sub_opcion == 3:
+                rol = Rol()
+                rol.all_usuario()
+                print("0 - Volver ")
+                print("")
+                id_rol = int(input("Ingrese un numero de Rol: "))
+                if id_rol != 0:
+                    rol.eliminar_rol(id_rol)
+            elif sub_opcion == 4:
+                rol = Rol()
+                rol.all_usuario()
+                volver = int(input("0 - Volver "))
+            elif sub_opcion == 5:
+                usuario = Usuario()
+                usuario.crearUsuario()
+            elif sub_opcion == 6:
+                usuario = Usuario()
+                usuario.all_usuario()
+                print("0 - Volver ")
+                id_usuario = int(input("Ingrese un numero de Usuario: "))
+                if id_usuario != 0:
+                    usuario.modificarUsuario(id_usuario)
+            elif sub_opcion == 7:
+                usuario = Usuario()
+                usuario.all_usuario()
+                id_usuario = int(input("Ingrese un numero de Usuario: "))
+                if id_usuario != 0:
+                    usuario.eliminarUsuario(id_usuario)
+            elif sub_opcion == 8:
+                usuario = Usuario()
+                usuario.all_usuario()
+                volver = int(input("0 - Volver "))
+            else:
+                sub_opcion = 0
+    elif opcion == 3:
+        pass
+    else:            
+        runing = False
     

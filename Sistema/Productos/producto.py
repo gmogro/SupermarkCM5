@@ -91,22 +91,22 @@ class Producto:
         print("Si no desea Modificar el Dato Solo Presione Enter")
         print("Hasta llegar al Dato que quiere modificar")
         producto = db.select("producto","id_categoria,codigo,nombre,precio_venta,stock,descripcion",f"id_producto = {id_producto} ")
-        self.__codigo = input(f"Modifique el Codigo : {producto[0][1]} ") or producto[0][1]
+        self.__codigo = input(f"Modifique el Codigo : {producto[0][1]} ")  or producto[0][1]
         self.__nombre = input(f"Modifique el Nombre :  {producto[0][1]} ") or producto[0][2]
-        self.__precio = float(input(f"Modifique el Precio : {producto[0][3]} ")) or producto[0][3]
-        self.__stock = int(input(f"Modifique el Stock : {producto[0][4]} ")) or producto[0][4]
+        self.__precio = input(f"Modifique el Precio : {producto[0][3]} ")  or producto[0][3]
+        self.__stock =  input(f"Modifique el Stock : {producto[0][4]} ") or producto[0][4]
         self.__descripcion = input(f"Modifique el descripcion : {producto[0][5]} ") or producto[0][5]
         categorias = db.select("categoria","id_categoria,nombre","estado = 1")
         print("Nro\tCategoria")
         for categoria in categorias:
-            if categoria[0][0] == categoria[0] :
+            if producto[0][0] == categoria[0] :
                 nombre = categoria[1]
             print(f"{categoria[0]} - {categoria[1]}")
-        self.__idcategoria = input(f"Modifique la Categoria {nombre} Ingrese un numero : ") or categoria[0][0]
+        self.__idcategoria = input(f"Modifique la Categoria {nombre} Ingrese un numero : ") or producto[0][0]
         db.update("producto","codigo",f"'{self.__codigo}'",f"id_producto = {id_producto}")
         db.update("producto","nombre",f"'{self.__nombre}'",f"id_producto = {id_producto}")
-        db.update("producto","precio_venta",f"'{self.__precio}'",f"id_producto = {id_producto}")
-        db.update("producto","stock",f"'{self.__stock}'",f"id_producto = {id_producto}")
+        db.update("producto","precio_venta",f"'{float(self.__precio)}'",f"id_producto = {id_producto}")
+        db.update("producto","stock",f"'{int(self.__stock)}'",f"id_producto = {id_producto}")
         db.update("producto","descripcion",f"'{self.__descripcion}'",f"id_producto = {id_producto}")
         db.update("producto","id_categoria",f"'{self.__idcategoria}'",f"id_producto = {id_producto}")
         db.close()
