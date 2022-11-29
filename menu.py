@@ -9,7 +9,7 @@ from os import system
 from progress.bar import Bar
 import time,random
 
-""" login = True
+login = True
 system("cls")
 while login:
     try:
@@ -29,7 +29,7 @@ bar = Bar('Cargando Sistema', max=100)
 for num in range(100):
     time.sleep(random.uniform(0, 0.5))
     bar.next()
-bar.finish() """
+bar.finish()
 
 system("cls")
 runing = True
@@ -242,4 +242,10 @@ while runing:
                 sub_opcion = 0
     else:            
         runing = False
-    
+        
+print("Chauuu!!")
+bar = Bar('Cerrando Sistema', max=100)
+for num in range(100):
+    time.sleep(random.uniform(0, 0.5))
+    bar.next()
+bar.finish()
