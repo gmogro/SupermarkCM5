@@ -120,7 +120,7 @@ class Usuario:
         db = sql.DataBase("supermark.db")
         print("Si no desea Modificar el Dato Solo Presione Enter")
         print("Hasta llegar al Dato que quiere modificar")
-        usuario = db.select("usuario","id_rol,nombre,apellido,dni,email,password",f"id_usuario = {id_usuario} ")
+        usuario = db.select("usuario","idrol,nombre,apellido,dni,email,password",f"id_usuario = {id_usuario} ")
         self.__nombre = input(f"Modifique el Nombre :  {usuario[0][1]} ") or usuario[0][1]
         self.__apellido = input(f"Modifique el Apellido : {usuario[0][1]} ") or usuario[0][2]
         self.__dni = input(f"Modifique el DNI : {usuario[0][3]} ") or usuario[0][3]
@@ -138,7 +138,7 @@ class Usuario:
         db.update("usuario","dni",f"'{self.__dni}'",f"id_usuario = {id_usuario}")
         db.update("usuario","email",f"'{self.__email}'",f"id_usuario = {id_usuario}")
         db.update("usuario","password",f"'{self.__password}'",f"id_usuario = {id_usuario}")
-        db.update("usuario","id_rol",f"'{self.__idrol}'",f"id_usuario = {id_usuario}")
+        db.update("usuario","idrol",f"'{self.__idrol}'",f"id_usuario = {id_usuario}")
         db.close()
         
     def eliminarUsuario(self,id_usuario):
@@ -148,9 +148,9 @@ class Usuario:
     
     def all_usuario(self):
         db = sql.DataBase("supermark.db")
-        usuario = db.select_all("usuario","id_usuario,nombre,apellido,dni,email,id_rol")
+        usuario = db.select_all("usuario","id_usuario,nombre,apellido,dni,email,idrol")
         print("NRO\tNombre\tApellido\tdni\temail\trol")
         for user in usuario:
-            rol = db.select("rol","nombre",f"id_rol = {user[5]}")
+            rol = db.select("rol","nombre",f"id_rol = '{user[5]}'")
             print(f"{user[0]}\t{user[1]}\t{user[2]}\t{user[3]}\t{user[4]}\t{rol[0][0]}")
         db.close() 

@@ -1,5 +1,5 @@
 from Databases import sql
-from Venta.persona import Persona
+from Sistema.Venta.persona import Persona
 
 
 class Cliente(Persona):
@@ -47,18 +47,18 @@ class Cliente(Persona):
         return super().__str__() + " - " + self.__email + " - " + self.__tipo_responsabilidad + " - " + self.__estado
     
     def crearCliente(self):
-        super().Nombre    = input("Ingrese el nombre del cliente: ")
-        super().Apellido  = input("Ingrese el apellido del cliente: ")
-        super().Direccion = input("Ingrese la direccion del cliente: ")
-        super().Telefono  = input("Ingrese el telefono del cliente: ")
-        super().Fecha_nacimiento = input("Ingrese la fecha de nacimiento del cliente: ")
-        super().Dni = input("Ingrese el dni del cliente: ")
+        self.Nombre    = input("Ingrese el nombre del cliente: ")
+        self.Apellido  = input("Ingrese el apellido del cliente: ")
+        self.Direccion = input("Ingrese la direccion del cliente: ")
+        self.Telefono  = input("Ingrese el telefono del cliente: ")
+        self.Fecha_nacimiento = input("Ingrese la fecha de nacimiento del cliente: ")
+        self.Dni = input("Ingrese el dni del cliente: ")
         self.__email = input("Ingrese el email del cliente: ")
         self.__tipo_responsabilidad = input("Ingrese el tipo de responsabilidad del cliente: ")
         db = sql.DataBase('supermark.db')
-        db.insert("cliente","nombre,apellido,dni,direccion,telefono,fecha_nacimiento,email,tipo_responsabilidad",
-                  f"'{super().Nombre}','{super().Apellido}','{super().Dni}',"+
-                  f"{super().Direccion},'{super().Telefono}','{super().Fecha_nacimiento}',"+
+        db.insert("persona","nombre,apellido,dni,direccion,telefono,fecha_nacimiento,email,tipo_responsabilidad",
+                  f"'{self.Nombre}','{self.Apellido}','{self.Dni}',"+
+                  f"'{self.Direccion}','{self.Telefono}','{self.Fecha_nacimiento}',"+
                   f"'{self.__email}','{self.__tipo_responsabilidad}'"
                   )
         db.close()
@@ -69,20 +69,20 @@ class Cliente(Persona):
                   f"id_persona = {id_cliente}")
         print("Si no desea Modificar el Dato Solo Presione Enter")
         print("Hasta llegar al Dato que quiere modificar")
-        super().Nombre    = input(f"Modifica el Nombre {cliente[0][0]} : ") or cliente[0][0]
-        super().Apellido  = input(f"Modifica el Apellido {cliente[0][1]} : ") or cliente[0][1]
-        super().Dni = input(f"Modifica el DNI : {cliente[0][2]}") or cliente[0][2]
-        super().Direccion = input(f"Modifica la Direccion {cliente[0][3]}: ") or cliente[0][3]
-        super().Telefono  = input(f"Modifica el telefono {cliente[0][4]}: ")
-        super().Fecha_nacimiento = input(f"Modifica la fecha de nacimiento {cliente[0][5]} :") or cliente[0][5]
+        self.Nombre    = input(f"Modifica el Nombre {cliente[0][0]} : ") or cliente[0][0]
+        self.Apellido  = input(f"Modifica el Apellido {cliente[0][1]} : ") or cliente[0][1]
+        self.Dni = input(f"Modifica el DNI : {cliente[0][2]}") or cliente[0][2]
+        self.Direccion = input(f"Modifica la Direccion {cliente[0][3]}: ") or cliente[0][3]
+        self.Telefono  = input(f"Modifica el telefono {cliente[0][4]}: ")
+        self.Fecha_nacimiento = input(f"Modifica la fecha de nacimiento {cliente[0][5]} :") or cliente[0][5]
         self.__email = input(f"Modifica email {cliente[0][6]}: ") or cliente[0][6]
         self.__tipo_responsabilidad = input(f"Modifica el tipo de responsabilidad {cliente[0][7]} :") or cliente[0][7]
-        db.update("persona","nombre",f"'{super().Nombre}'",f"id_persona = {id_cliente}")
-        db.update("persona","apellido",f"'{super().Apellido}'",f"id_persona = {id_cliente}")
-        db.update("persona","dni",f"'{super().Dni}'",f"id_persona = {id_cliente}")
-        db.update("persona","direccion",f"'{super().Direccion}'",f"id_persona = {id_cliente}")
-        db.update("persona","telefono",f"'{super().Telefono}'",f"id_persona = {id_cliente}")
-        db.update("persona","fecha_nacimiento",f"'{super().Fecha_nacimiento}'",f"id_persona = {id_cliente}")
+        db.update("persona","nombre",f"'{self.Nombre}'",f"id_persona = {id_cliente}")
+        db.update("persona","apellido",f"'{self.Apellido}'",f"id_persona = {id_cliente}")
+        db.update("persona","dni",f"'{self.Dni}'",f"id_persona = {id_cliente}")
+        db.update("persona","direccion",f"'{self.Direccion}'",f"id_persona = {id_cliente}")
+        db.update("persona","telefono",f"'{self.Telefono}'",f"id_persona = {id_cliente}")
+        db.update("persona","fecha_nacimiento",f"'{self.Fecha_nacimiento}'",f"id_persona = {id_cliente}")
         db.update("persona","email",f"'{self.__email}'",f"id_persona = {id_cliente}")
         db.update("persona","tipo_responsabilidad",f"'{self.__tipo_responsabilidad }'",f"id_persona = {id_cliente}")
         db.close()
@@ -95,7 +95,7 @@ class Cliente(Persona):
     
     def listarClientes(self):
         db = sql.DataBase("supermark.db")
-        clientes = db.select_all("clientes","id_persona,nombre,apellido,dni,direccion,telefono,fecha_nacimiento,email,tipo_responsabilidad")
+        clientes = db.select_all("persona","id_persona,nombre,apellido,dni,direccion,telefono,fecha_nacimiento,email,tipo_responsabilidad")
         print("Nro\tnombre\tapellido\tdni\tdireccion\t\ttelefono\tfecha_nacimiento\temail\ttipo_responsabilidad")
         for cliente in clientes:
             print(f"{cliente[0]}\t{cliente[1]}\t{cliente[2]}\t{cliente[3]}\t{cliente[4]}\t\t{cliente[5]}\t{cliente[6]}\t{cliente[7]}\t{cliente[8]}")

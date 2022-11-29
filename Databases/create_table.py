@@ -1,8 +1,14 @@
 import sql
 
+import sqlite3
+connection = sqlite3.connect('supermark.db')
+connection.execute("DROP TABLE venta")
+print("data dropped successfully")
+connection.close()
+
 db = sql.DataBase("supermark.db")
 
-db.create_table("rol","id_rol INTEGER PRIMARY KEY AUTOINCREMENT," +  
+""" db.create_table("rol","id_rol INTEGER PRIMARY KEY AUTOINCREMENT," +  
                        "nombre TEXT," + 
                        "descripcion TEXT," + 
                        "estado INTEGER DEFAULT 1"
@@ -23,26 +29,26 @@ db.create_table("persona","id_persona INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "apellido TEXT(50)," +
                         "dni TEXT(11)," + 
                         "direccion TEXT(50)," +
-                        "fecha_nacimiento datetime," +
+                        "fecha_nacimiento TEXT(20)," +
                         "telefono TEXT(9)," +
                         "email TEXT(50)," +
                         "tipo_persona TEXT(20) DEFAULT 'Cliente'," +
                         "tipo_responsabilidad TEXT(30),"+
                         "estado INTEGER DEFAULT 1"
-                )
+                ) """
 
 db.create_table("venta",
                 "id_venta INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 "id_cliente INTEGER,"+
                 "tipo_comprobante TEXT(20),"+
                 "nro_comprobante TEXT(7),"+
-                "fecha TEXT(10),"+
+                "fecha datetime,"+
                 "total REAL,"+
                 "estado TEXT(20) DEFAULT 'EXITOSA',"+
                 "id_usuario INTEGER"
                 )
 
-db.create_table("detalle_venta", 
+""" db.create_table("detalle_venta", 
                 "id_detalle_venta INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 "id_venta INTEGER,"+
                 "id_producto INTEGER,"+
@@ -67,6 +73,6 @@ db.create_table("categoria",
                 "nombre TEXT(50),"+
                 "descripcion TEXT(256),"+
                 "estado INTEGER DEFAULT 1"
-                )
+                ) """
 
 db.close()
