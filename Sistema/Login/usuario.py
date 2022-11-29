@@ -122,7 +122,7 @@ class Usuario:
         print("Hasta llegar al Dato que quiere modificar")
         usuario = db.select("usuario","idrol,nombre,apellido,dni,email,password",f"id_usuario = {id_usuario} ")
         self.__nombre = input(f"Modifique el Nombre :  {usuario[0][1]} ") or usuario[0][1]
-        self.__apellido = input(f"Modifique el Apellido : {usuario[0][1]} ") or usuario[0][2]
+        self.__apellido = input(f"Modifique el Apellido : {usuario[0][2]} ") or usuario[0][2]
         self.__dni = input(f"Modifique el DNI : {usuario[0][3]} ") or usuario[0][3]
         self.__email = input(f"Modifique el email : {usuario[0][4]} ") or usuario[0][4]
         self.__password = input(f"Modifique el password : {usuario[0][5]} ") or usuario[0][5]

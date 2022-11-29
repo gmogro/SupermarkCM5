@@ -4,11 +4,12 @@ from Sistema.Login.usuario import Usuario
 from Sistema.Productos.producto import Producto
 from Sistema.Productos.categoria import Categoria
 from Sistema.Venta.venta import Venta
+from Sistema.Venta.detalle_venta import DetalleVenta
 from os import system
 from progress.bar import Bar
 import time,random
 
-login = True
+""" login = True
 system("cls")
 while login:
     try:
@@ -28,7 +29,7 @@ bar = Bar('Cargando Sistema', max=100)
 for num in range(100):
     time.sleep(random.uniform(0, 0.5))
     bar.next()
-bar.finish()
+bar.finish() """
 
 system("cls")
 runing = True
@@ -231,6 +232,11 @@ while runing:
             elif sub_opcion == 7:
                 venta = Venta()
                 venta.all_venta()
+                detalle_venta_id = int(input("Desea ver los detalle de la venta ingrese el numero : "))
+                if detalle_venta_id != 0:
+                    dt = DetalleVenta()
+                    dt.get_detalleventa(detalle_venta_id)
+                print("")
                 volver = int(input("0 - Volver "))
             else:
                 sub_opcion = 0
