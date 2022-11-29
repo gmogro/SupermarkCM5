@@ -79,28 +79,28 @@ class Venta:
         print("")
         self.__tipoComprobante = input("Ingrese el Tipo de Comprobante : ")
         print("")
-        self.__nro_comprobante = input("Ingrese Serie de Comprobante : ")
+        self.__nro_comprobante = input("Ingrese Numero de Comprobante : ")
         print("")
         print("#############Seleccione el Producto################")
-        producto = Producto()
+        detalles = []
         runnig = True
         while runnig:
+            producto = Producto()
             producto.listarProducto()
             print("")
             id_producto = int(input("Ingrese el Nro del producto: "))
             cantidad = int(input("Ingrese la cantidad del producto: "))
             producto = db.select("producto","precio_venta",f"id_producto = {id_producto}")
             subtotal = producto[0][0] * cantidad
-            detalles = DetalleVenta(id_producto, cantidad,subtotal)
+            detalles.append(DetalleVenta(id_producto, cantidad,subtotal))
             self.__total += subtotal 
-            opcion = input("Desea Ingresar mas Productos 1 - SI  0 - NO : ")
+            opcion = int(input("Desea Ingresar mas Productos 1 - SI  0 - NO : "))
             if opcion == 0:
                 runnig = False
         print("####################################################")
         self.__fecha = datetime.today()
         db.insert("venta","id_cliente,tipo_comprobante,nro_comprobante,fecha,total",
-                  f"'{self.__cliente}','{self.__tipoComprobante}','{self.__nro_comprobante}'"+
-                  f"'{self.__fecha}','{self.__total}'")
+                  f"'{self.__cliente}','{self.__tipoComprobante}','{self.__nro_comprobante}','{self.__fecha}','{self.__total}'")
         self.__idventa = db.get_last_id()
         for detalle in detalles:
             db.insert("detalle_venta","id_venta,id_producto,cantidad,subtotal,descuento",
