@@ -77,17 +77,6 @@ class Main(Toplevel):
         btn_create.grid(row = 3, column = 1, sticky="SWE",padx = 10)
         btn_create = tk.Button(self, image = self.img_delete_person, width = 50, height = 50)
         btn_create.grid(row = 3, column = 2, sticky="SWE",padx = 10)
-
-    """ def _list_client(self):
-        rows = []
-        for i in range(2,5):
-            cols = []
-            for j in range(0,5):
-                e = tk.Entry(relief = tk.GROOVE)
-                e.grid(row=i, column=j, sticky = tk.NSEW)
-                e.insert(tk.END, '%d.%d' % (i, j))
-                cols.append(e)
-            rows.append(cols) """
     
     def _list_sale(self):
         tree = ttk.Treeview(self, column=("c1", "c2", "c3","c4"), show='headings')
