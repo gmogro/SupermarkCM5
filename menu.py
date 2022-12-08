@@ -6,7 +6,7 @@ from Sistema.Productos.categoria import Categoria
 from Sistema.Venta.venta import Venta
 from Sistema.Venta.detalle_venta import DetalleVenta
 from os import system
-from progress.bar import Bar
+#from progress.bar import Bar
 import time,random
 
 login = True
@@ -25,11 +25,11 @@ while login:
         print(e + "Inicio de Session Incorrecto")
 print("Has iniciado session XD")
 
-bar = Bar('Cargando Sistema', max=100)
+""" bar = Bar('Cargando Sistema', max=100)
 for num in range(100):
     time.sleep(random.uniform(0, 0.5))
     bar.next()
-bar.finish()
+bar.finish() """
 
 system("cls")
 runing = True
@@ -243,9 +243,9 @@ while runing:
     else:            
         runing = False
         
-print("Chauuu!!")
+""" print("Chauuu!!")
 bar = Bar('Cerrando Sistema', max=100)
 for num in range(100):
     time.sleep(random.uniform(0, 0.5))
     bar.next()
-bar.finish()
+bar.finish() """

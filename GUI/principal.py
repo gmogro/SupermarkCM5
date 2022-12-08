@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import ttk,Toplevel
 from tkinter import messagebox
 
+from GUI.Forms.cliente import FormCliente
+
 class Main(Toplevel):
     def __init__(self):
         super().__init__()
@@ -71,7 +73,7 @@ class Main(Toplevel):
         self.img_create_person = tk.PhotoImage(file = r"GUI/image/img/add_persona.png")
         self.img_edit_person = tk.PhotoImage(file = r"GUI/image/img/editar_persona.png")
         self.img_delete_person = tk.PhotoImage(file = r"GUI/image/img/delete_persona.png")
-        btn_create = tk.Button(self, image = self.img_create_person, width = 50, height = 50)
+        btn_create = tk.Button(self, image = self.img_create_person, width = 50, height = 50, command = self.form_client)
         btn_create.grid(row = 3, column = 0, sticky="SWE",padx = 10)
         btn_create = tk.Button(self, image = self.img_edit_person, width = 50, height = 50)
         btn_create.grid(row = 3, column = 1, sticky="SWE",padx = 10)
@@ -102,8 +104,12 @@ class Main(Toplevel):
         tree.column("#4", anchor=tk.CENTER)
         tree.heading("#4", text="Precio")
         tree.grid(row = 2, column = 0, sticky="SWE",columnspan=5,padx = 10, pady = 10)
+
+    def form_client(self):
+        app = FormCliente()
+        app.mainloop()
     
-    
+
 if __name__ == '__main__':
     app = Main()
     app.mainloop()
