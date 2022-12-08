@@ -102,7 +102,8 @@ class Main(Toplevel):
         tree.column("#4", anchor=tk.CENTER)
         tree.heading("#4", text="Precio")
         tree.grid(row = 2, column = 0, sticky="SWE",columnspan=5,padx = 10, pady = 10)
-        
+    
+    
 if __name__ == '__main__':
     app = Main()
     app.mainloop()

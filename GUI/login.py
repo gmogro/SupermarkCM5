@@ -42,6 +42,7 @@ class LoginVentana(tk.Tk):
         if (usuario.login(self.usuario_entrada.get(),self.password_entrada.get())):
             """ messagebox.showinfo('Datos Login',
                 f'usuario: {self.usuario_entrada.get()}, Password: {self.password_entrada.get()}') """
+            self.withdraw()
             app = Main()
             app.mainloop()
         else:
