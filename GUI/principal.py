@@ -2,7 +2,8 @@ import tkinter as tk
 from tkinter import ttk,Toplevel
 from tkinter import messagebox
 
-from GUI.Forms.cliente import FormCliente
+from GUI.Forms.form_cliente import FormCliente
+from Sistema.Venta.cliente import Cliente
 
 class Main(Toplevel):
     def __init__(self):
@@ -58,8 +59,8 @@ class Main(Toplevel):
 
 
     def _list_client(self):
-        tree = ttk.Treeview(self, column=("c1", "c2", "c3","c4"), show='headings')
-        tree.column("#1", anchor=tk.CENTER)
+        tree = ttk.Treeview(self, column=("c1", "c2", "c3","c4", "c5", "c6","c7","c8","c9"), show='headings')
+        tree.column("#1", anchor=tk.CENTER, minwidth = 4)
         tree.heading("#1", text="Nro")
         tree.column("#2", anchor=tk.CENTER)
         tree.heading("#2", text="Apellido")
@@ -67,8 +68,20 @@ class Main(Toplevel):
         tree.heading("#3", text="Nombre")
         tree.column("#4", anchor=tk.CENTER)
         tree.heading("#4", text="Documento")
-        tree.column("#4", anchor=tk.CENTER)
-        tree.heading("#4", text="Domicilio")
+        tree.column("#5", anchor=tk.CENTER)
+        tree.heading("#5", text="Domicilio")
+        tree.column("#6", anchor=tk.CENTER)
+        tree.heading("#6", text="FechaNac.")
+        tree.column("#7", anchor=tk.CENTER)
+        tree.heading("#7", text="Email")
+        tree.column("#8", anchor=tk.CENTER)
+        tree.heading("#8", text="Tipo")
+        tree.column("#9", anchor=tk.CENTER)
+        tree.heading("#9", text="Estado")
+        cliente = Cliente()
+        clientes = cliente.listarClientes()
+        for cl in clientes:
+            tree.insert("", tk.END, values=cl)
         tree.grid(row = 2, column = 0, sticky="SWE",columnspan=5,padx = 10, pady = 10)
         self.img_create_person = tk.PhotoImage(file = r"GUI/image/img/add_persona.png")
         self.img_edit_person = tk.PhotoImage(file = r"GUI/image/img/editar_persona.png")

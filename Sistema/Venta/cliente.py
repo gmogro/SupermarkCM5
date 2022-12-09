@@ -4,7 +4,7 @@ from Sistema.Venta.persona import Persona
 
 class Cliente(Persona):
 
-    def __init__(self,id_cliente = 0, nombre = "", apellido="", direccion="", telefono="", fecha_nacimiento="", dni="", email="", tipo_responsabilidad=""):
+    def __init__(self,nombre = "", apellido="", direccion="", telefono="", fecha_nacimiento="", dni="", email="", tipo_responsabilidad="",id_cliente = 0):
         self.__idcliente = id_cliente
         super().__init__(nombre, apellido, direccion, telefono, fecha_nacimiento,dni)
         self.__email = email
@@ -47,14 +47,14 @@ class Cliente(Persona):
         return super().__str__() + " - " + self.__email + " - " + self.__tipo_responsabilidad + " - " + self.__estado
     
     def crearCliente(self):
-        self.Nombre    = input("Ingrese el nombre del cliente: ")
+        """ self.Nombre    = input("Ingrese el nombre del cliente: ")
         self.Apellido  = input("Ingrese el apellido del cliente: ")
         self.Direccion = input("Ingrese la direccion del cliente: ")
         self.Telefono  = input("Ingrese el telefono del cliente: ")
         self.Fecha_nacimiento = input("Ingrese la fecha de nacimiento del cliente: ")
         self.Dni = input("Ingrese el dni del cliente: ")
         self.__email = input("Ingrese el email del cliente: ")
-        self.__tipo_responsabilidad = input("Ingrese el tipo de responsabilidad del cliente: ")
+        self.__tipo_responsabilidad = input("Ingrese el tipo de responsabilidad del cliente: ") """
         db = sql.DataBase('supermark.db')
         db.insert("persona","nombre,apellido,dni,direccion,telefono,fecha_nacimiento,email,tipo_responsabilidad",
                   f"'{self.Nombre}','{self.Apellido}','{self.Dni}',"+
@@ -95,9 +95,17 @@ class Cliente(Persona):
     
     def listarClientes(self):
         db = sql.DataBase("supermark.db")
-        clientes = db.select_all("persona","id_persona,nombre,apellido,dni,direccion,telefono,fecha_nacimiento,email,tipo_responsabilidad")
-        print("Nro\tnombre\tapellido\tdni\tdireccion\t\ttelefono\tfecha_nacimiento\temail\ttipo_responsabilidad")
+        clientes = db.select_all("persona","id_persona,apellido,nombre,dni,direccion,telefono,fecha_nacimiento,email,tipo_responsabilidad")
+        """ print("Nro\tnombre\tapellido\tdni\tdireccion\t\ttelefono\tfecha_nacimiento\temail\ttipo_responsabilidad")
         for cliente in clientes:
             print(f"{cliente[0]}\t{cliente[1]}\t{cliente[2]}\t{cliente[3]}\t{cliente[4]}\t\t{cliente[5]}\t{cliente[6]}\t{cliente[7]}\t{cliente[8]}")
-        db.close()       
+        """
+        db.close()  
+        return clientes
+    
+    def select_cliente(self):
+        db = sql.DataBase("supermark.db")
+        clientes = db.select("persona","apellido,nombre","estado = 1")
+        db.close() 
+        return clientes
         

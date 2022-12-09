@@ -3,21 +3,21 @@ from tkinter import ttk,Toplevel,Label
 from tkinter import messagebox
 from tkcalendar import DateEntry
 
+from Sistema.Venta.cliente import Cliente
+
 class FormCliente(Toplevel):
     def __init__(self):
         super().__init__()
-        self.title("Formulario Cliente")
+        self.title("Crear Cliente")
         self.geometry("680x500")
         self.iconbitmap('GUI/image/icons/tienda.ico')
         self.resizable(0,0)
-        # configuración del grid
-        #self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=2)
         self._create_label_input()
 
     def _create_label_input(self):
 
-        form_etiqueta = ttk.Label(self, text='Formulario Cliente', font=("Arial", 25))
+        form_etiqueta = ttk.Label(self, text='Crear Cliente', font=("Arial", 25))
         form_etiqueta.grid(row=0, column=0, columnspan=2,padx=20, pady=20)
 
         # apellido
@@ -47,7 +47,8 @@ class FormCliente(Toplevel):
         # Fecha Nacimiento
         fecha_nacimiento_etiqueta = ttk.Label(self, text='Fecha Nacimiento:')
         fecha_nacimiento_etiqueta.grid(row=5, column=0, sticky='W', padx=5, pady=10)
-        self.fecha_nacimiento_entrada = DateEntry(self)
+        #self.fecha_nacimiento_entrada = DateEntry(self)
+        self.fecha_nacimiento_entrada = ttk.Entry(self)
         self.fecha_nacimiento_entrada.grid(row=5, column=1, sticky='EW', padx=5, pady=10)
 
         # Telefono
@@ -70,19 +71,18 @@ class FormCliente(Toplevel):
 
         #Aceptar
         ttk.Style().configure("TButton", padding=6, relief="flat",background="#ccc")
-        aceptar_boton = ttk.Button(self, text='Aceptar')
+        aceptar_boton = ttk.Button(self, text='Aceptar',command=self.aceptar)
         aceptar_boton.grid(row=9, column=1,sticky='E', padx=100, pady=20)
         #Cancelar
         cancelar_boton = ttk.Button(self, text='Cancelar',command=self.cancelar)
         cancelar_boton.grid(row=9, column=1,sticky='E', padx=5, pady=20)
 
     def aceptar(self):
-        self.guardar = True
-        self.padre.destroy()
+        cliente = Cliente(self.nombre_entrada.get(),self.apellido_entrada.get(),self.direccion_entrada.get(),
+                          self.telefono_entrada.get(),self.fecha_nacimiento_entrada.get(),
+                          self.dni_entrada.get(),self.email_entrada.get(),self.tipo_responsabilidad_entrada.get())
+        cliente.crearCliente()
+        self.destroy()
 
     def cancelar(self):
         self.destroy()
-
-if __name__ == '__main__':
-    app = FormCliente()
-    app.mainloop()
