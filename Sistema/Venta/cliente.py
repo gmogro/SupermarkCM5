@@ -95,7 +95,7 @@ class Cliente(Persona):
     
     def listarClientes(self):
         db = sql.DataBase("supermark.db")
-        clientes = db.select_all("persona","id_persona,apellido,nombre,dni,direccion,telefono,fecha_nacimiento,email,tipo_responsabilidad")
+        clientes = db.select_all("persona","id_persona,apellido,nombre,dni,direccion,fecha_nacimiento,telefono,email,tipo_responsabilidad,estado")
         """ print("Nro\tnombre\tapellido\tdni\tdireccion\t\ttelefono\tfecha_nacimiento\temail\ttipo_responsabilidad")
         for cliente in clientes:
             print(f"{cliente[0]}\t{cliente[1]}\t{cliente[2]}\t{cliente[3]}\t{cliente[4]}\t\t{cliente[5]}\t{cliente[6]}\t{cliente[7]}\t{cliente[8]}")
