@@ -68,20 +68,31 @@ class FormCliente(Toplevel):
         tipo_responsabilidad_etiqueta.grid(row=8, column=0, sticky='W', padx=5, pady=10)
         self.tipo_responsabilidad_entrada = ttk.Combobox(self,values=['Monotributista','Responsable Inscripto','Cosumidor Final'])
         self.tipo_responsabilidad_entrada.grid(row=8, column=1, sticky='EW', padx=5, pady=10)
+        
+        #id_cliente
+        self.id_cliente_entrada = ttk.Entry(self)
+        self.id_cliente_entrada.grid(row=9, column=1, sticky='EW', padx=5, pady=10)
 
         #Aceptar
         ttk.Style().configure("TButton", padding=6, relief="flat",background="#ccc")
         aceptar_boton = ttk.Button(self, text='Aceptar',command=self.aceptar)
-        aceptar_boton.grid(row=9, column=1,sticky='E', padx=100, pady=20)
+        aceptar_boton.grid(row=10, column=1,sticky='E', padx=100, pady=20)
         #Cancelar
         cancelar_boton = ttk.Button(self, text='Cancelar',command=self.cancelar)
-        cancelar_boton.grid(row=9, column=1,sticky='E', padx=5, pady=20)
+        cancelar_boton.grid(row=10, column=1,sticky='E', padx=5, pady=20)
 
     def aceptar(self):
-        cliente = Cliente(self.nombre_entrada.get(),self.apellido_entrada.get(),self.direccion_entrada.get(),
-                          self.telefono_entrada.get(),self.fecha_nacimiento_entrada.get(),
-                          self.dni_entrada.get(),self.email_entrada.get(),self.tipo_responsabilidad_entrada.get())
-        cliente.crearCliente()
+        if self.id_cliente_entrada.get() == "":
+            cliente = Cliente(self.nombre_entrada.get(),self.apellido_entrada.get(),self.direccion_entrada.get(),
+                            self.telefono_entrada.get(),self.fecha_nacimiento_entrada.get(),
+                            self.dni_entrada.get(),self.email_entrada.get(),self.tipo_responsabilidad_entrada.get())
+            cliente.crearCliente()
+        else:
+            cliente = Cliente(self.nombre_entrada.get(),self.apellido_entrada.get(),self.direccion_entrada.get(),
+                            self.telefono_entrada.get(),self.fecha_nacimiento_entrada.get(),
+                            self.dni_entrada.get(),self.email_entrada.get(),self.tipo_responsabilidad_entrada.get(),
+                            self.id_cliente_entrada.get())
+            cliente.modificarCliente()
         self.destroy()
 
     def cancelar(self):
