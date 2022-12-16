@@ -127,6 +127,6 @@ class Producto:
     
     def select_producto(self,id_categoria = 0):
         db = sql.DataBase("supermark.db")
-        productos = db.select("producto","id_producto,id_categoria,codigo,nombre,precio_venta,stock,descripcion",f"id_categoria = {id_categoria}")
+        productos = db.select("producto","id_producto,codigo,nombre,precio_venta,stock,descripcion",f"id_categoria = {id_categoria}")
         db.close()
         return productos
