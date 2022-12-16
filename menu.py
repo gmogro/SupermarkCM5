@@ -6,8 +6,11 @@ from Sistema.Productos.categoria import Categoria
 from Sistema.Venta.venta import Venta
 from Sistema.Venta.detalle_venta import DetalleVenta
 from os import system
+from Databases.sql import DataBase
 #from progress.bar import Bar
 import time,random
+
+global usuario_id
 
 login = True
 system("cls")
@@ -19,7 +22,11 @@ while login:
         password = input("Contraseña : ")
         usuario = Usuario()
         if (usuario.login(email,password)):
-             login = False
+            db = DataBase("supermark.db")
+            usuario = db.select("usuario","id_usuario",f"email = {email}")
+            usuario_id = usuario[0][0]
+            db.close()
+            login = False
         print("#####################################")
     except Exception as e :
         print(e + "Inicio de Session Incorrecto")

@@ -60,7 +60,10 @@ class Categoria:
     def listar_categoria(self):
         db = sql.DataBase("supermark.db")
         categorias = db.select_all("categoria","id_categoria,nombre,descripcion")
-        print("NRO     Nombre    Descripcion")
+        """ print("NRO     Nombre    Descripcion")
         for categoria in categorias:
-            print(f"{categoria[0]} - {categoria[1]}  -  {categoria[2]}")
+            print(f"{categoria[0]} - {categoria[1]}  -  {categoria[2]}") """
         db.close() 
+        return categorias
+    
+    
