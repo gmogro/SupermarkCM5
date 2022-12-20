@@ -70,9 +70,9 @@ class Cliente(Persona):
         db.close()
         return cliente
         
-    def modificarCliente(self,id_cliente):
+    def modificarCliente(self):
         db = sql.DataBase('supermark.db')
-        cliente = db.select("persona","nombre,apellido,dni,direccion,telefono,fecha_nacimiento,email,tipo_responsabilidad",
+        """ cliente = db.select("persona","nombre,apellido,dni,direccion,telefono,fecha_nacimiento,email,tipo_responsabilidad",
                   f"id_persona = {id_cliente}")
         ''' print("Si no desea Modificar el Dato Solo Presione Enter")
         print("Hasta llegar al Dato que quiere modificar")
@@ -83,15 +83,15 @@ class Cliente(Persona):
         self.Telefono  = input(f"Modifica el telefono {cliente[0][4]}: ")
         self.Fecha_nacimiento = input(f"Modifica la fecha de nacimiento {cliente[0][5]} :") or cliente[0][5]
         self.__email = input(f"Modifica email {cliente[0][6]}: ") or cliente[0][6]
-        self.__tipo_responsabilidad = input(f"Modifica el tipo de responsabilidad {cliente[0][7]} :") or cliente[0][7] '''
-        db.update("persona","nombre",f"'{self.Nombre}'",f"id_persona = {id_cliente}")
-        db.update("persona","apellido",f"'{self.Apellido}'",f"id_persona = {id_cliente}")
-        db.update("persona","dni",f"'{self.Dni}'",f"id_persona = {id_cliente}")
-        db.update("persona","direccion",f"'{self.Direccion}'",f"id_persona = {id_cliente}")
-        db.update("persona","telefono",f"'{self.Telefono}'",f"id_persona = {id_cliente}")
-        db.update("persona","fecha_nacimiento",f"'{self.Fecha_nacimiento}'",f"id_persona = {id_cliente}")
-        db.update("persona","email",f"'{self.__email}'",f"id_persona = {id_cliente}")
-        db.update("persona","tipo_responsabilidad",f"'{self.__tipo_responsabilidad }'",f"id_persona = {id_cliente}")
+        self.__tipo_responsabilidad = input(f"Modifica el tipo de responsabilidad {cliente[0][7]} :") or cliente[0][7] """
+        db.update("persona","nombre",f"'{self.Nombre}'",f"id_persona = {self.Idcliente}")
+        db.update("persona","apellido",f"'{self.Apellido}'",f"id_persona = {self.Idcliente}")
+        db.update("persona","dni",f"'{self.Dni}'",f"id_persona = {self.Idcliente}")
+        db.update("persona","direccion",f"'{self.Direccion}'",f"id_persona = {self.Idcliente}")
+        db.update("persona","telefono",f"'{self.Telefono}'",f"id_persona = {self.Idcliente}")
+        db.update("persona","fecha_nacimiento",f"'{self.Fecha_nacimiento}'",f"id_persona = {self.Idcliente}")
+        db.update("persona","email",f"'{self.__email}'",f"id_persona = {self.Idcliente}")
+        db.update("persona","tipo_responsabilidad",f"'{self.__tipo_responsabilidad }'",f"id_persona = {self.Idcliente}")
         db.close()
     
     def eliminarCliente(self,id_cliente):

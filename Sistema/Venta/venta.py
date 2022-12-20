@@ -66,7 +66,7 @@ class Venta:
     def __str__(self):
         return self.__cliente + " - " + self.__fecha + " - " + str(self.__total)
     
-    def crearVenta(self):
+    def crearVenta(self,id_usuario):
         db = sql.DataBase("supermark.db")
         persona = Cliente()
         print("###################################################")
@@ -99,8 +99,8 @@ class Venta:
                 runnig = False
         print("####################################################")
         self.__fecha = datetime.today()
-        db.insert("venta","id_cliente,tipo_comprobante,nro_comprobante,fecha,total",
-                  f"'{self.__cliente}','{self.__tipoComprobante}','{self.__nro_comprobante}','{self.__fecha}','{self.__total}'")
+        db.insert("venta","id_cliente,tipo_comprobante,nro_comprobante,fecha,total,id_usuario",
+                  f"'{self.__cliente}','{self.__tipoComprobante}','{self.__nro_comprobante}','{self.__fecha}','{self.__total}',{id_usuario}")
         self.__idventa = db.get_last_id()
         for detalle in detalles:
             db.insert("detalle_venta","id_venta,id_producto,cantidad,precio,descuento",

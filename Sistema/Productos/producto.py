@@ -124,4 +124,9 @@ class Producto:
             categoria = db.select("categoria","nombre",f"id_categoria = {producto[1]}")
             print(f"{producto[0]}\t{categoria[0][0]}\t\t{producto[2]}\t\t{producto[3]}\t{producto[4]}\t{producto[5]}\t{producto[6]}")
         db.close()
-        
+    
+    def select_producto(self,id_categoria = 0):
+        db = sql.DataBase("supermark.db")
+        productos = db.select("producto","id_producto,codigo,nombre,precio_venta,stock,descripcion",f"id_categoria = {id_categoria}")
+        db.close()
+        return productos
