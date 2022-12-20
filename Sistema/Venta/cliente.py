@@ -62,12 +62,19 @@ class Cliente(Persona):
                   f"'{self.__email}','{self.__tipo_responsabilidad}'"
                   )
         db.close()
+    
+    def get_cliente(self,id_cliente):
+        db = sql.DataBase('supermark.db')
+        cliente = db.select("persona","nombre,apellido,dni,direccion,telefono,fecha_nacimiento,email,tipo_responsabilidad",
+                  f"id_persona = {id_cliente}")
+        db.close()
+        return cliente
         
     def modificarCliente(self,id_cliente):
         db = sql.DataBase('supermark.db')
         cliente = db.select("persona","nombre,apellido,dni,direccion,telefono,fecha_nacimiento,email,tipo_responsabilidad",
                   f"id_persona = {id_cliente}")
-        print("Si no desea Modificar el Dato Solo Presione Enter")
+        ''' print("Si no desea Modificar el Dato Solo Presione Enter")
         print("Hasta llegar al Dato que quiere modificar")
         self.Nombre    = input(f"Modifica el Nombre {cliente[0][0]} : ") or cliente[0][0]
         self.Apellido  = input(f"Modifica el Apellido {cliente[0][1]} : ") or cliente[0][1]
@@ -76,7 +83,7 @@ class Cliente(Persona):
         self.Telefono  = input(f"Modifica el telefono {cliente[0][4]}: ")
         self.Fecha_nacimiento = input(f"Modifica la fecha de nacimiento {cliente[0][5]} :") or cliente[0][5]
         self.__email = input(f"Modifica email {cliente[0][6]}: ") or cliente[0][6]
-        self.__tipo_responsabilidad = input(f"Modifica el tipo de responsabilidad {cliente[0][7]} :") or cliente[0][7]
+        self.__tipo_responsabilidad = input(f"Modifica el tipo de responsabilidad {cliente[0][7]} :") or cliente[0][7] '''
         db.update("persona","nombre",f"'{self.Nombre}'",f"id_persona = {id_cliente}")
         db.update("persona","apellido",f"'{self.Apellido}'",f"id_persona = {id_cliente}")
         db.update("persona","dni",f"'{self.Dni}'",f"id_persona = {id_cliente}")
