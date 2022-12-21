@@ -4,6 +4,7 @@ from tkinter import RIGHT, Y, Scrollbar, Toplevel,ttk
 from Sistema.Productos.categoria import Categoria
 from Sistema.Productos.producto import Producto
 from Sistema.Venta.cliente import Cliente
+from Sistema.Venta.venta import Venta
 
 class FormVenta(tk.Tk):
     
@@ -28,7 +29,11 @@ class FormVenta(tk.Tk):
         cliente_etiqueta.grid(row=1, column=0, sticky='W', padx=5, pady=10)
         cliente = Cliente()
         clientes = cliente.select_cliente()
-        self.cliente_entrada = ttk.Combobox(self,values=clientes)
+        val_cliente = []
+        for cl in clientes :
+            cliente_value = "_".join(str(v) for v in cl)
+            val_cliente.append(cliente_value)
+        self.cliente_entrada = ttk.Combobox(self,values=val_cliente)
         self.cliente_entrada.grid(row=1, column=1, sticky='EW', padx=5, pady=10)
         
         # Tipo Comprobante
@@ -50,11 +55,12 @@ class FormVenta(tk.Tk):
         self.fecha_entrada.grid(row=4, column=1, sticky='EW',padx=5, pady=10)
         today = datetime.today().strftime("%d/%m/%Y")
         self.fecha_entrada.insert(0,today)
+        self.fecha_entrada.config(state="readonly")
 
         form_etiqueta = ttk.Label(self, text='Seleccione Productos', font=("Arial", 15))
         form_etiqueta.grid(row=5, column=0, columnspan=2,padx=5, pady=5)
         
-        #Categorialambda event: self.show(event)
+        #Categoria
         categoria_etiqueta = ttk.Label(self, text='Categoria :')
         categoria_etiqueta.grid(row=6, column=0, sticky='W', padx=5, pady=5)
         categoria = Categoria()
@@ -101,6 +107,7 @@ class FormVenta(tk.Tk):
         total_etiqueta.place(x= 750 , y=663)
         self.total_entrada = ttk.Entry(self)
         self.total_entrada.grid(row = 11, column=1, sticky='E',padx=10, pady=10)
+        self.total_entrada.state(["readonly"])
         
         #Aceptar
         ttk.Style().configure("TButton", padding=6, relief="flat",background="#ccc")
@@ -115,13 +122,16 @@ class FormVenta(tk.Tk):
         producto = self.producto_entrada.get().split("_")
         cantidad = self.cantidad_entrada.get()
         subtotal = float(producto[3]) * int(cantidad)
-        self.tree_detalle.insert("", tk.END, values=(self.id_tree_detalle,producto[2],cantidad,subtotal))
+        self.tree_detalle.insert("", tk.END, values=(self.id_tree_detalle,f"{producto[0]}_{producto[2]}",cantidad,subtotal))
         self.total = self.total + subtotal
+        self.total_entrada.state(["!readonly"])
         self.total_entrada.delete(0, 'end')
         self.total_entrada.insert(0,self.total)
+        self.total_entrada.state(["readonly"])
         
         
     def add_product_combobox(self,event):
+        self.producto_entrada['values'] = []
         categoria = self.categoria_entrada.get().split("_")
         producto = Producto()
         productos = producto.select_producto(categoria[0])
@@ -132,12 +142,17 @@ class FormVenta(tk.Tk):
         self.producto_entrada['values'] = val_productos
         
     def aceptar(self):
-        pass
-        """ cliente = Cliente(self.nombre_entrada.get(),self.apellido_entrada.get(),self.dni_entrada.get(),
+        cliente = self.cliente_entrada.get().split()[0]
+        tipo_comprobante = self.comprobante_entrada.get()
+        numero_comprobante = self.nro_comprobante_entrada.get()
+        fecha = self.fecha_entrada.get()
+        total = self.total_entrada.get()
+        detalle = []
+        
+        venta = Venta(cliente,self.apellido_entrada.get(),self.dni_entrada.get(),
                           self.direccion_entrada.get(),self.stock_nacimiento_entrada.get(),
                           self.telefono_entrada.get(),self.email_entrada.get(),self.producto_entrada.get())
-        cliente.crearCliente()
-        self.destroy() """
+        self.destroy()
 
     def cancelar(self):
         self.destroy()
