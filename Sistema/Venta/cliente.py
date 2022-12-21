@@ -112,7 +112,7 @@ class Cliente(Persona):
     
     def select_cliente(self):
         db = sql.DataBase("supermark.db")
-        clientes = db.select("persona","apellido,nombre","estado = 1")
+        clientes = db.select("persona","id_persona,apellido,nombre","estado = 1")
         db.close() 
         return clientes
         
