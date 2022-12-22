@@ -68,7 +68,7 @@ class Venta:
     
     def crearVenta(self,id_usuario):
         db = sql.DataBase("supermark.db")
-        persona = Cliente()
+        ''' persona = Cliente()
         print("###################################################")
         print("Selecione un Cliente : ")
         print("Si no encuentra al Cliente dar de Alta en cliente")
@@ -98,11 +98,11 @@ class Venta:
             if opcion == 0:
                 runnig = False
         print("####################################################")
-        self.__fecha = datetime.today()
+        self.__fecha = datetime.today() '''
         db.insert("venta","id_cliente,tipo_comprobante,nro_comprobante,fecha,total,id_usuario",
                   f"'{self.__cliente}','{self.__tipoComprobante}','{self.__nro_comprobante}','{self.__fecha}','{self.__total}',{id_usuario}")
         self.__idventa = db.get_last_id()
-        for detalle in detalles:
+        for detalle in self.__detalle:
             db.insert("detalle_venta","id_venta,id_producto,cantidad,precio,descuento",
                   f"'{self.__idventa}','{detalle.Idproducto}','{detalle.Cantidad}','{detalle.Subtotal}','0'")
         db.close()
@@ -122,3 +122,13 @@ class Venta:
             print(f"{venta[0]}\t{cliente[0][0]}\t\t{venta[2]}\t{venta[3]}\t{venta[4]}\t{venta[5]}\t{venta[6]}")
         print("#########################################################################")
         db.close()
+    
+    def listar_venta(self):
+        db = sql.DataBase("supermark.db")
+        db.cursor.execute("""SELECT v.id_venta,c.nombre,v.tipo_comprobante,v.nro_comprobante,v.fecha,v.total,v.estado 
+                             FROM venta v
+                             INNER JOIN persona c
+                             ON v.id_cliente = c.id_persona""")
+        ventas = db.cursor.fetchall()
+        db.close()
+        return ventas

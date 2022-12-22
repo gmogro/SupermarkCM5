@@ -3,7 +3,11 @@ from tkinter import ttk,Toplevel
 from tkinter import messagebox
 
 from GUI.Forms.form_cliente import FormCliente
+from GUI.Forms.form_producto import FormProducto
+from GUI.Forms.form_venta import FormVenta
+from Sistema.Productos.producto import Producto
 from Sistema.Venta.cliente import Cliente
+from Sistema.Venta.venta import Venta
 
 class Main(Toplevel):
     def __init__(self):
@@ -19,6 +23,8 @@ class Main(Toplevel):
         self.img_create_person = tk.PhotoImage(file = r"GUI/image/img/add_persona.png")
         self.img_edit_person = tk.PhotoImage(file = r"GUI/image/img/editar_persona.png")
         self.img_delete_person = tk.PhotoImage(file = r"GUI/image/img/delete_persona.png")
+        self.img_create_sale = tk.PhotoImage(file = r"GUI/image/img/create_venta.png")
+        self.img_delete_sale = tk.PhotoImage(file = r"GUI/image/img/delete_venta.png")
         #self.resizable(False, False)
         self.columnconfigure(0, weight = 3)
         self.columnconfigure(1, weight = 3)
@@ -48,15 +54,15 @@ class Main(Toplevel):
     
     def _create_boton_action(self):
 
-        btnInfo = tk.Button(self, image = self.photo, width = 50, height = 50, command = self._list_client)
+        self.btnInfo = tk.Button(self, image = self.photo, width = 50, height = 50, command = self._list_client)
         btnInfo1 = tk.Button(self,  image = self.photo1, width=50, height=50,  command = self._list_producto)
-        btnInfo2 = tk.Button(self, image =  self.photo2, width=50, height=50,  command = self._list_sale)
+        self.btnInfo2 = tk.Button(self, image =  self.photo2, width=50, height=50,  command = self._list_sale)
         btnInfo3 = tk.Button(self, image = self.photo4, width = 50, height = 50)
         btnInfo4 = tk.Button(self, image = self.photo5, width = 50, height = 50)
 
-        btnInfo.grid(row = 1, column = 0, sticky="NWE")
+        self.btnInfo.grid(row = 1, column = 0, sticky="NWE")
         btnInfo1.grid(row = 1, column = 1, sticky="NWE")
-        btnInfo2.grid(row = 1, column = 2, sticky="NWE")
+        self.btnInfo2.grid(row = 1, column = 2, sticky="NWE")
         btnInfo3.grid(row = 1, column = 3, sticky="NWE")
         btnInfo4.grid(row = 1, column = 4, sticky="NWE")
 
@@ -83,7 +89,6 @@ class Main(Toplevel):
         self.tree_cliente.heading("#9", text="Tipo")
         self.tree_cliente.column("#10", anchor=tk.CENTER)
         self.tree_cliente.heading("#10", text="Estado")
-        
         cliente = Cliente()
         clientes = cliente.listarClientes()
         for cl in clientes:
@@ -97,38 +102,71 @@ class Main(Toplevel):
         btn_delete.grid(row = 3, column = 2, sticky="SWE",padx = 10) 
         
     def _list_sale(self):
-        tree = ttk.Treeview(self, column=("c1", "c2", "c3","c4"), show='headings')
-        tree.column("#1", anchor=tk.CENTER)
-        tree.heading("#1", text="Nro")
-        tree.column("#2", anchor=tk.CENTER)
-        tree.heading("#2", text="Cliente")
-        tree.column("#3", anchor=tk.CENTER)
-        tree.heading("#3", text="Fecha")
-        tree.column("#4", anchor=tk.CENTER)
-        tree.heading("#4", text="Total")
-        tree.grid(row = 2, column = 0, sticky="SWE",columnspan=5,padx = 10, pady = 10)
+        self.tree_sale = ttk.Treeview(self, column=("c1", "c2", "c3","c4","c5","c6","c7"), show='headings')
+        self.tree_sale.column("#1", anchor=tk.CENTER)
+        self.tree_sale.heading("#1", text="Nro")
+        self.tree_sale.column("#2", anchor=tk.CENTER)
+        self.tree_sale.heading("#2", text="Cliente")
+        self.tree_sale.column("#3", anchor=tk.CENTER)
+        self.tree_sale.heading("#3", text="Tipo Comprobante")
+        self.tree_sale.column("#4", anchor=tk.CENTER)
+        self.tree_sale.heading("#4", text="Nro Comprobante")
+        self.tree_sale.column("#5", anchor=tk.CENTER)
+        self.tree_sale.heading("#5", text="Fecha")
+        self.tree_sale.column("#6", anchor=tk.CENTER)
+        self.tree_sale.heading("#6", text="Total")
+        self.tree_sale.column("#7", anchor=tk.CENTER)
+        self.tree_sale.heading("#7", text="Estado")
+        venta = Venta()
+        ventas = venta.listar_venta()
+        for vnt in ventas:
+            self.tree_sale.insert("", tk.END, values=vnt)
+        self.tree_sale.grid(row = 2, column = 0, sticky="SWE",columnspan=5,padx = 10, pady = 10)
+        btn_create = tk.Button(self, image = self.img_create_sale, width = 50, height = 50, command = self.form_venta)
+        btn_create.grid(row = 3, column = 0, sticky="SWE",padx = 10)
+        btn_delete = tk.Button(self, image = self.img_delete_sale, width = 50, height = 50)
+        btn_delete.grid(row = 3, column = 1, sticky="SWE",padx = 10) 
         
 
     def _list_producto(self):
-        tree = ttk.Treeview(self, column=("c1", "c2", "c3","c4"), show='headings')
-        tree.column("#1", anchor=tk.CENTER)
-        tree.heading("#1", text="Nro")
-        tree.column("#2", anchor=tk.CENTER)
-        tree.heading("#2", text="Nombre")
-        tree.column("#3", anchor=tk.CENTER)
-        tree.heading("#3", text="Stock")
-        tree.column("#4", anchor=tk.CENTER)
-        tree.heading("#4", text="Precio")
-        tree.grid(row = 2, column = 0, sticky="SWE",columnspan=5,padx = 10, pady = 10)
+        self.tree_producto = ttk.Treeview(self, column=("c1", "c2", "c3","c4","c5","c6","c7","c8"), show='headings')
+        self.tree_producto.column("#1", anchor=tk.CENTER)
+        self.tree_producto.heading("#1", text="Nro")
+        self.tree_producto.column("#2", anchor=tk.CENTER)
+        self.tree_producto.heading("#2", text="Categoria")
+        self.tree_producto.column("#3", anchor=tk.CENTER)
+        self.tree_producto.heading("#3", text="Codigo")
+        self.tree_producto.column("#4", anchor=tk.CENTER)
+        self.tree_producto.heading("#4", text="Nombre")
+        self.tree_producto.column("#5", anchor=tk.CENTER)
+        self.tree_producto.heading("#5", text="Stock")
+        self.tree_producto.column("#6", anchor=tk.CENTER)
+        self.tree_producto.heading("#6", text="Precio")
+        self.tree_producto.heading("#7", text="Descripcion")
+        self.tree_producto.column("#7", anchor=tk.CENTER)
+        self.tree_producto.heading("#8", text="Estado")
+        self.tree_producto.column("#8", anchor=tk.CENTER)
+        self.tree_producto.grid(row = 2, column = 0, sticky="SWE",columnspan=5,padx = 10, pady = 10)
+        producto = Producto()
+        productos = producto.listar_producto()
+        for pd in productos:
+            self.tree_producto.insert("", tk.END, values=pd)
+        self.tree_producto.grid(row = 2, column = 0, sticky="SWE",columnspan=5,padx = 10, pady = 10)
+        btn_create = tk.Button(self, image = self.img_create_person, width = 50, height = 50, command = self.form_client)
+        btn_create.grid(row = 3, column = 0, sticky="SWE",padx = 10)
+        btn_edit = tk.Button(self, image = self.img_edit_person, width = 50, height = 50, command = self.form_edit_client)
+        btn_edit.grid(row = 3, column = 1, sticky="SWE",padx = 10)
+        btn_delete = tk.Button(self, image = self.img_delete_person, width = 50, height = 50)
+        btn_delete.grid(row = 3, column = 2, sticky="SWE",padx = 10)
 
     def form_client(self):
-        app = FormCliente()
+        app = FormCliente(self)
         app.mainloop()
     
     def form_edit_client(self):
         curItem = self.tree_cliente.focus()
         cliente_form = self.tree_cliente.item(curItem)
-        app = FormCliente()
+        app = FormCliente(self)
         app.id_cliente_entrada.insert(0,cliente_form["values"][0])
         app.apellido_entrada.insert(0,cliente_form['values'][1])
         app.nombre_entrada.insert(0,cliente_form['values'][2])
@@ -139,7 +177,20 @@ class Main(Toplevel):
         app.email_entrada.insert(0,cliente_form['values'][7])
         app.tipo_responsabilidad_entrada.insert(0,cliente_form['values'][8])
         app.mainloop()
-        
+    
+    def form_venta(self):
+        app = FormVenta(self)
+        app.mainloop()
+    
+    def form_producto(self):
+        app = FormProducto(self)
+        app.mainloop()
+
+    def refresh(self):
+        self.destroy()
+        self.__init__()
+
+
 if __name__ == '__main__':
     app = Main()
     app.mainloop()

@@ -130,3 +130,13 @@ class Producto:
         productos = db.select("producto","id_producto,codigo,nombre,precio_venta,stock,descripcion",f"id_categoria = {id_categoria}")
         db.close()
         return productos
+    
+    def listar_producto(self):
+        db = sql.DataBase("supermark.db")
+        db.cursor.execute("""SELECT p.id_producto,c.nombre AS categoria ,p.codigo,p.nombre,p.precio_venta,p.stock,p.descripcion
+                             FROM producto p
+                             INNER JOIN categoria c
+                             ON p.id_categoria = c.id_categoria""")
+        producto = db.cursor.fetchall()
+        db.close()
+        return producto

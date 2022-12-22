@@ -4,11 +4,13 @@ from tkinter import RIGHT, Y, Scrollbar, Toplevel,ttk
 from Sistema.Productos.categoria import Categoria
 from Sistema.Productos.producto import Producto
 from Sistema.Venta.cliente import Cliente
+from Sistema.Venta.detalle_venta import DetalleVenta
 from Sistema.Venta.venta import Venta
+from GUI import principal
 
 class FormVenta(tk.Tk):
     
-    def __init__(self):
+    def __init__(self,master):
         super().__init__()
         self.title("Crear Venta")
         self.geometry("960x760")
@@ -131,7 +133,7 @@ class FormVenta(tk.Tk):
         
         
     def add_product_combobox(self,event):
-        self.producto_entrada['values'] = []
+        self.producto_entrada.set("")
         categoria = self.categoria_entrada.get().split("_")
         producto = Producto()
         productos = producto.select_producto(categoria[0])
@@ -147,15 +149,30 @@ class FormVenta(tk.Tk):
         numero_comprobante = self.nro_comprobante_entrada.get()
         fecha = self.fecha_entrada.get()
         total = self.total_entrada.get()
-        detalle = []
-        
-        venta = Venta(cliente,self.apellido_entrada.get(),self.dni_entrada.get(),
-                          self.direccion_entrada.get(),self.stock_nacimiento_entrada.get(),
-                          self.telefono_entrada.get(),self.email_entrada.get(),self.producto_entrada.get())
-        self.destroy()
+        detalles = []
+
+        for line in self.tree_detalle.get_children():
+            detalle_value = self.tree_detalle.item(line)
+            id_producto = detalle_value["values"][1].split("_")[0]
+            cantidad = int(detalle_value["values"][2])
+            subtotal = float(detalle_value["values"][3])
+            detalle = DetalleVenta(id_producto,cantidad,subtotal)
+            detalles.append(detalle)
+
+        venta = Venta(cliente,tipo_comprobante,numero_comprobante,
+                          fecha,total,detalles)
+        venta.crearVenta()
+        self.refresh()
 
     def cancelar(self):
         self.destroy()
+
+    def refresh(self):
+        self.destroy()
+        self.master.destroy()
+        self.master = principal.Main()
+        self.master.btnInfo2.invoke()
+        self.master.mainloop()
 
 if __name__ == '__main__':
     app = FormVenta()

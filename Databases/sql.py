@@ -37,7 +37,7 @@ class  DataBase:
     def delete_table(self, table_name):
         self.cursor.execute(f"DROP TABLE {table_name}")
         self.connection.commit()
- 
+
     def close(self):
         self.connection.close()
     

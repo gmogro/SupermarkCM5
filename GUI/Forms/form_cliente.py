@@ -2,12 +2,14 @@ import tkinter as tk
 from tkinter import ttk,Toplevel,Label
 from tkinter import messagebox
 from tkcalendar import DateEntry
+from GUI import principal
 
 from Sistema.Venta.cliente import Cliente
 
 class FormCliente(Toplevel):
-    def __init__(self):
+    def __init__(self,master):
         super().__init__()
+        self.master = master
         self.title("Crear Cliente")
         self.geometry("680x500")
         self.iconbitmap('GUI/image/icons/tienda.ico')
@@ -87,13 +89,24 @@ class FormCliente(Toplevel):
                             self.telefono_entrada.get(),self.fecha_nacimiento_entrada.get(),
                             self.dni_entrada.get(),self.email_entrada.get(),self.tipo_responsabilidad_entrada.get())
             cliente.crearCliente()
+            self.refresh()
         else:
             cliente = Cliente(self.nombre_entrada.get(),self.apellido_entrada.get(),self.direccion_entrada.get(),
                             self.telefono_entrada.get(),self.fecha_nacimiento_entrada.get(),
                             self.dni_entrada.get(),self.email_entrada.get(),self.tipo_responsabilidad_entrada.get(),
                             self.id_cliente_entrada.get())
             cliente.modificarCliente()
+            self.refresh()
         self.destroy()
-
+    
     def cancelar(self):
         self.destroy()
+    
+    def refresh(self):
+        self.destroy()
+        self.master.destroy()
+        self.master = principal.Main()
+        self.master.btnInfo.invoke()
+        self.master.mainloop()
+   
+        
