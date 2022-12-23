@@ -11,7 +11,7 @@ class FormCliente(Toplevel):
         super().__init__()
         self.master = master
         self.title("Crear Cliente")
-        self.geometry("680x500")
+        self.geometry("680x600")
         self.iconbitmap('GUI/image/icons/tienda.ico')
         self.resizable(0,0)
         self.columnconfigure(1, weight=2)
@@ -72,7 +72,7 @@ class FormCliente(Toplevel):
         self.tipo_responsabilidad_entrada.grid(row=8, column=1, sticky='EW', padx=5, pady=10)
         
         #id_cliente
-        self.id_cliente_entrada = ttk.Entry(self)
+        self.id_cliente_entrada = ttk.Entry(self,state="readonly")
         self.id_cliente_entrada.grid(row=9, column=1, sticky='EW', padx=5, pady=10)
 
         #Aceptar

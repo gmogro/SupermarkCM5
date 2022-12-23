@@ -12,7 +12,7 @@ class FormProducto(Toplevel):
         super().__init__()
         self.master = master
         self.title("Crear Producto")
-        self.geometry("680x500")
+        self.geometry("680x460")
         self.iconbitmap('GUI/image/icons/tienda.ico')
         self.resizable(0,0)
         self.columnconfigure(1, weight=2)
