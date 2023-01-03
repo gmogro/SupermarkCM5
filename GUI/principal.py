@@ -1,3 +1,4 @@
+from tkinter import*
 import tkinter as tk
 from tkinter import ttk,Toplevel
 from tkinter import messagebox
@@ -9,6 +10,7 @@ from GUI.Forms.form_venta import FormVenta
 from Sistema.Productos.producto import Producto
 from Sistema.Venta.cliente import Cliente
 from Sistema.Venta.venta import Venta
+import sqlite3
 
 class Main(Toplevel):
     def __init__(self):
@@ -19,7 +21,7 @@ class Main(Toplevel):
         self.photo = tk.PhotoImage(file = r"GUI/image/img/cliente.png")
         self.photo1 = tk.PhotoImage(file = r"GUI/image/img/producto.png")
         self.photo2 = tk.PhotoImage(file = r"GUI/image/img/venta.png")
-        self.photo4 = tk.PhotoImage(file = r"GUI/image/img/pdf.png")
+        self.photo4 = tk.PhotoImage(file = r"GUI/image/img/dashboard.png")
         self.photo5 = tk.PhotoImage(file = r"GUI/image/img/logout.png")
         self.img_create_person = tk.PhotoImage(file = r"GUI/image/img/add_persona.png")
         self.img_edit_person = tk.PhotoImage(file = r"GUI/image/img/editar_persona.png")
@@ -35,6 +37,7 @@ class Main(Toplevel):
         self.columnconfigure(2, weight = 3)
         self.columnconfigure(3, weight = 3)
         self.columnconfigure(4, weight = 3)
+        
         self._create_menu()
         self._create_boton_action()
         
@@ -62,14 +65,61 @@ class Main(Toplevel):
         self.btnInfo1 = tk.Button(self,  image = self.photo1, width=50, height=50,  command = self._list_producto)
         self.btnInfo2 = tk.Button(self, image =  self.photo2, width=50, height=50,  command = self._list_sale)
         self.btnInfo3 = tk.Button(self, image = self.photo4, width = 50, height = 50)
-        self.btnInfo4 = tk.Button(self, image = self.photo5, width = 50, height = 50)
+        self.btnInfo4 = tk.Button(self, image = self.photo5, width = 50, height = 50,  command = self.logout)
 
-        self.btnInfo.grid(row = 1, column = 0, sticky="NWE")
-        self.btnInfo1.grid(row = 1, column = 1, sticky="NWE")
-        self.btnInfo2.grid(row = 1, column = 2, sticky="NWE")
-        self.btnInfo3.grid(row = 1, column = 3, sticky="NWE")
+        self.btnInfo3.grid(row = 1, column = 0, sticky="NWE")
+        self.btnInfo.grid(row = 1, column = 1, sticky="NWE")
+        self.btnInfo1.grid(row = 1, column = 2, sticky="NWE")
+        self.btnInfo2.grid(row = 1, column = 3, sticky="NWE")
         self.btnInfo4.grid(row = 1, column = 4, sticky="NWE")
+        
+        self.lbl_cliente=Label(self,text="Cliente Total\n[ 0 ]",bd=5,relief=RIDGE,bg="#33bbf9",fg="white",font=("goudy old style",20,"bold"))
+        self.lbl_cliente.place(x=10,y=120,height=150,width=300)
 
+        self.lbl_producto=Label(self,text="Productos Total\n[ 0 ]",bd=5,relief=RIDGE,bg="#ff5722",fg="white",font=("goudy old style",20,"bold"))
+        self.lbl_producto.place(x=360,y=120,height=150,width=300)
+
+        self.lbl_venta=Label(self,text="Ventas Total\n[ 0 ]",bd=5,relief=RIDGE,bg="#009688",fg="white",font=("goudy old style",20,"bold"))
+        self.lbl_venta.place(x=710,y=120,height=150,width=300)
+        self.update_content()
+
+    def _dashboard(self):
+        self.lbl_cliente=Label(self,text="Cliente Total\n[ 0 ]",bd=5,relief=RIDGE,bg="#33bbf9",fg="white",font=("goudy old style",20,"bold"))
+        self.lbl_cliente.place(x=10,y=120,height=150,width=300)
+
+        self.lbl_producto=Label(self,text="Productos Total\n[ 0 ]",bd=5,relief=RIDGE,bg="#ff5722",fg="white",font=("goudy old style",20,"bold"))
+        self.lbl_producto.place(x=360,y=120,height=150,width=300)
+
+        self.lbl_venta=Label(self,text="Ventas Total\n[ 0 ]",bd=5,relief=RIDGE,bg="#009688",fg="white",font=("goudy old style",20,"bold"))
+        self.lbl_venta.place(x=710,y=120,height=150,width=300)
+        self.update_content()
+
+    def update_content(self):
+        con = sqlite3.connect("supermark.db")
+        cur = con.cursor()
+        try:
+            cur.execute("select * from producto")
+            producto=cur.fetchall()
+            self.lbl_producto.config(text=f"Productos Total\n[ {str(len(producto))} ]")
+
+            cur.execute("select * from persona")
+            cliente = cur.fetchall()
+            self.lbl_cliente.config(text=f"Cliente Total\n[ {str(len(cliente))} ]")
+
+            cur.execute("select * from venta")
+            cliente = cur.fetchall()
+            self.lbl_cliente.config(text=f"Cliente Total\n[ {str(len(cliente))} ]")
+
+            ''' bill=len(os.listdir("bill"))
+            self.lbl_sales.config(text=f"Ventas Total [ {str(bill)} ]")
+
+            time_=time.strftime("%I:%M:%S")
+            date_=time.strftime("%d-%m-%Y")
+            self.lbl_clock.config(text=f"¡Bienvenido al sistema de gestión Supermark!\t\t Fecha: {str(date_)}\t\t Tiempo: {str(time_)}")
+            self.lbl_clock.after(200,self.update_content) '''
+
+        except Exception as ex:
+            messagebox.showerror("Error",f"Error causador por: {str(ex)}",parent=self)
 
     def _list_client(self):
         self.tree_cliente = ttk.Treeview(self, column=("c1", "c2", "c3","c4", "c5", "c6","c7","c8","c9","c10"), show='headings',height=25)
@@ -97,16 +147,24 @@ class Main(Toplevel):
         clientes = cliente.listarClientes()
         for cl in clientes:
             cl = list(cl)
-            cl[len(cl)-1] = 'Activo' if int(cl[len(cl)-1]) == 1 else 'Desactivo'
+            cl[len(cl)-1] = 'Activo' if int(cl[len(cl)-1]) == 1 else 'Baja'
             cl = tuple(cl)
             self.tree_cliente.insert("", tk.END, values=cl)
         self.tree_cliente.grid(row = 2, column = 0, sticky="NSWE",columnspan=5,padx = 10, pady = 10)
+        
+        self.scrollbarx = Scrollbar(self, orient=HORIZONTAL)
+        self.scrollbary = Scrollbar(self, orient=VERTICAL)
+        self.tree_cliente.configure(yscrollcommand=self.scrollbary.set,xscrollcommand=self.scrollbarx.set)
+        self.scrollbarx.configure(command=self.tree_cliente.xview)
+        self.scrollbary.configure(command=self.tree_cliente.yview)
+        self.scrollbarx.grid(row = 3, column = 0, sticky=W + E,columnspan=5)
+
         self.btn_create_cliente = tk.Button(self, image = self.img_create_person, width = 50, height = 50, command = self.form_client)
-        self.btn_create_cliente.grid(row = 3, column = 0, sticky="SWE",padx = 10)
+        self.btn_create_cliente.grid(row = 4, column = 0, sticky="SWE",padx = 10,pady = 10)
         self.btn_edit_cliente = tk.Button(self, image = self.img_edit_person, width = 50, height = 50, command = self.form_edit_client)
-        self.btn_edit_cliente.grid(row = 3, column = 1, sticky="SWE",padx = 10)
+        self.btn_edit_cliente.grid(row = 4, column = 1, sticky="SWE",padx = 10,pady = 10)
         self.btn_delete_cliente = tk.Button(self, image = self.img_delete_person, width = 50, height = 50, command=self.delete_cliente)
-        self.btn_delete_cliente.grid(row = 3, column = 2, sticky="SWE",padx = 10) 
+        self.btn_delete_cliente.grid(row = 4, column = 2, sticky="SWE",padx = 10,pady = 10) 
         
     def _list_sale(self):
         self.tree_sale = ttk.Treeview(self, column=("c1", "c2", "c3","c4","c5","c6","c7"), show='headings',height=25)
@@ -131,7 +189,7 @@ class Main(Toplevel):
         self.tree_sale.grid(row = 2, column = 0, sticky="SWE",columnspan=5,padx = 10, pady = 10)
         self.btn_create_sale = tk.Button(self, image = self.img_create_sale, width = 50, height = 50, command = self.form_venta)
         self.btn_create_sale.grid(row = 3, column = 0, sticky="SWE",padx = 10)
-        self.btn_ver_sale = tk.Button(self, image = self.img_ver_sale, width = 50, height = 50, command=self.ver_sale)
+        self.btn_ver_sale = tk.Button(self, image = self.img_ver_sale, width = 50, height = 50, command=self.ver_venta)
         self.btn_ver_sale.grid(row = 3, column = 1, sticky="SWE",padx = 10)
         self.btn_delete_sale = tk.Button(self, image = self.img_delete_sale, width = 50, height = 50, command= self.anular_venta)
         self.btn_delete_sale.grid(row = 3, column = 2, sticky="SWE",padx = 10) 
@@ -148,9 +206,9 @@ class Main(Toplevel):
         self.tree_producto.column("#4", anchor=tk.CENTER)
         self.tree_producto.heading("#4", text="Nombre")
         self.tree_producto.column("#5", anchor=tk.CENTER)
-        self.tree_producto.heading("#5", text="Stock")
+        self.tree_producto.heading("#5", text="Precio")
         self.tree_producto.column("#6", anchor=tk.CENTER)
-        self.tree_producto.heading("#6", text="Precio")
+        self.tree_producto.heading("#6", text="Stock")
         self.tree_producto.heading("#7", text="Descripcion")
         self.tree_producto.column("#7", anchor=tk.CENTER)
         self.tree_producto.heading("#8", text="Estado")
@@ -160,7 +218,7 @@ class Main(Toplevel):
         productos = producto.listar_producto()
         for pd in productos:
             pd = list(pd)
-            pd[len(pd)-1] = 'Activo' if int(pd[len(pd)-1]) == 1 else 'Desactivo'
+            pd[len(pd)-1] = 'Activo' if int(pd[len(pd)-1]) == 1 else 'Baja'
             pd = tuple(pd)
             self.tree_producto.insert("", tk.END, values=pd)
         self.tree_producto.grid(row = 2, column = 0, sticky="SWE",columnspan=5,padx = 10, pady = 10)
@@ -203,17 +261,8 @@ class Main(Toplevel):
         curItem = self.tree_sale.focus()
         if curItem:
             sale_form = self.tree_sale.item(curItem)
-            app = FormDetalleVenta(self)
             id_venta = sale_form["values"][0]
-            app.cliente_entrada.insert(0,sale_form['values'][1])
-            app.nombre_entrada.insert(0,cliente_form['values'][2])
-            app.fecha_entrada.insert(0,cliente_form['values'][3])
-            app.direccion_entrada.insert(0,cliente_form['values'][4])
-            app.fecha_nacimiento_entrada.insert(0,cliente_form['values'][5])
-            app.telefono_entrada.insert(0,cliente_form['values'][6])
-            app.email_entrada.insert(0,cliente_form['values'][7])
-            app.tipo_responsabilidad_entrada.insert(0,cliente_form['values'][8])
-            app.id_cliente_entrada.config(state="readonly")
+            app = FormDetalleVenta(id_venta)
             app.mainloop()
         else:
             messagebox.showinfo(message="Error: Seleccione un cliente a editar", title="Cliente no seleccionado")
@@ -273,6 +322,9 @@ class Main(Toplevel):
         self.destroy()
         self.__init__()
         self.btnInfo2.invoke()
+    
+    def logout(self):
+        self.destroy()
 
 if __name__ == '__main__':
     app = Main()

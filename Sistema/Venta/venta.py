@@ -132,3 +132,25 @@ class Venta:
         ventas = db.cursor.fetchall()
         db.close()
         return ventas
+    
+    def get_detalles(self,id_venta):
+        db = sql.DataBase("supermark.db")
+        db.cursor.execute("""SELECT id_detalle_venta,p.nombre,cantidad,p.precio_venta,descuento,precio
+                             FROM detalle_venta as dt
+                             INNER JOIN producto as p
+                             ON dt.id_producto = p.id_producto
+                             WHERE dt.id_venta = %s""" % (id_venta))
+        detalle = db.cursor.fetchall()
+        db.close()
+        return detalle
+    
+    def get_venta(self,id_venta):
+        db = sql.DataBase("supermark.db")
+        db.cursor.execute("""SELECT v.id_venta,c.apellido,c.nombre,v.tipo_comprobante,v.nro_comprobante,v.fecha,v.total,v.estado 
+                             FROM venta v
+                             INNER JOIN persona c
+                             ON v.id_cliente = c.id_persona
+                             WHERE v.id_venta = %s """ %(id_venta))
+        venta = db.cursor.fetchone()
+        db.close()
+        return venta
